@@ -1,0 +1,24 @@
+# python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+.env
+.vscode/
+.idea/
+
+# python virtual env
+.venv/
+env/
+ENV/
+
+# logs
+*.log
+
+# hug & gh
+*.sqlite3
+
+# don't commit credentials
+me/*.key
+me/*.pem
