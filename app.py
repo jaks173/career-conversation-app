@@ -7,6 +7,17 @@ import re
 import requests
 from pypdf import PdfReader
 import gradio as gr
+import gradio_client.utils as _gradio_client_utils
+
+_orig_json_schema_to_python_type = _gradio_client_utils._json_schema_to_python_type
+
+def _safe_json_schema_to_python_type(schema, defs):
+    if not isinstance(schema, dict):
+        return "Any"
+    return _orig_json_schema_to_python_type(schema, defs)
+
+_gradio_client_utils._json_schema_to_python_type = _safe_json_schema_to_python_type
+
 import socket
 import ast
 import pathlib
@@ -503,15 +514,12 @@ def _history_to_dict_list(hist):
 def respond_and_append(user_message, chat_history):
     if chat_history is None:
         chat_history = []
-    # canonicalize incoming history
     history_as_dicts = _history_to_dict_list(chat_history)
-    # call agent
     raw_reply = me.chat(user_message, history_as_dicts)
     reply_text = normalize_assistant_reply(raw_reply)
-    # append canonical dict-list for Gradio
-    history_as_dicts.append({"role": "user", "content": str(user_message)})
-    history_as_dicts.append({"role": "assistant", "content": reply_text})
-    return "", history_as_dicts
+    chat_history = list(chat_history or [])
+    chat_history.append((str(user_message), reply_text))
+    return "", chat_history
 
 # ---------- UI layout ----------
 avatar_path = "me/avatar.jpg" if os.path.exists("me/avatar.jpg") else None
@@ -566,7 +574,7 @@ if __name__ == "__main__":
     _require_openai_key()
     me = Me()
 
-    with gr.Blocks(title=f"{me.name} — Career Assistant") as demo:
+    with gr.Blocks(title=f"{me.name} — Career Assistant", css=css) as demo:
         with gr.Row(elem_classes="header-row", variant="default"):
             with gr.Column(scale=1, min_width=120):
                 if avatar_path:
@@ -588,4 +596,4 @@ if __name__ == "__main__":
     port_env = int(os.getenv("PORT", "0") or "0")
     port = port_env if port_env != 0 else find_free_port()
     print(f"Launching on port {port} ...", flush=True)
-    demo.launch(server_name="0.0.0.0", server_port=port, css=css)
+    demo.launch(server_name="127.0.0.1", server_port=port)
