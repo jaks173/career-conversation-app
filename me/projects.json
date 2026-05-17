@@ -1,17 +1,52 @@
 [
-    {
-      "name": "Insights for Expense policy Suggestion Feature",
-      "link": "https://docs.google.com/spreadsheets/d/1BLciHWWqnD_JXOyiLoHYKHW9BnIMancmtJebHwrASLk/edit?gid=1292715649#gid=1292715649",
-      "desc": "Designed and engineered custom feature-engineering tables from raw transactional and policy data, enabling robust analysis of 40+ organizations expense behaviors. Performed correlation and segmentation analysis to identify high-impact customer groups, generating actionable insights that informed prioritization of the Expense Policy Suggestion feature rollout."
-    },
-    {
-      "name": "Amazon Mini TV Bites Preview Feature (Upraised PM program)",
-      "link": "https://docs.google.com/document/d/1DNXHL1z6nWipQF8onh6q30tR4VOsVUMVFGNurzjq45Y/edit?tab=t.0",
-      "desc": "Authored PRD for the Amazon Mini TV Bites Preview Feature, enabling seamless integration of new content into the existing TV experience."
-    },
-    {
-      "name": "Increasing number of orders per customer - Zomato(Upraised PM program)",
-      "link": "https://docs.google.com/document/d/1S63vdDrlCTdVJ2K83ekLrTrJ8g9736CkpO5WEkGIL6o/edit?tab=t.0#heading=h.rhkzkyqzopxy",
-      "desc": "Designed and documented the solution to increase the number of orders per customer for Zomato, reducing churn and increasing revenue."
-    }
-  ]
+  {
+    "name": "TicketWise – ML-Powered Support Ticket Routing",
+    "desc": "Deployed and monitored SageMaker classification model for ticket routing across 40+ organizations; improved routing accuracy to 94%, reduced resolution time by 40%, and reduced manual effort by 60%",
+    "link": ""
+  },
+  {
+    "name": "Career Avatar Chat App",
+    "desc": "Built AI-powered career assistant using OpenAI API with tool-calling, guardrails against hallucination, Pushover alerts, and Gradio UI deployed on Hugging Face Spaces",
+    "link": ""
+  },
+  {
+    "name": "Deep Agents SDK Eval Platform (Cisco)",
+    "desc": "Databricks pipelines build eval datasets from partner-team skill registry + production data; GitHub Actions runs end-to-end LLM evals with automated reporting; Deep Agents suite throughput improved 5x (9h to ~1.8h) across ~10 product lines",
+    "link": ""
+  },
+  {
+    "name": "LLM Operations Automation (MCP)",
+    "desc": "Designed Model Context Protocol integration for Databricks AI Dev Kit for automated evaluation workflows and reusable LLM-powered data analysis skills",
+    "link": ""
+  },
+  {
+    "name": "AI Canvas Analytics (Cisco)",
+    "desc": "Product analytics for AI Canvas—customer and user deep dives, quality pass/fail tracking, leadership dashboards on adoption and response quality",
+    "link": ""
+  },
+  {
+    "name": "Amazon Mini TV – Content Discovery (Upraised)",
+    "desc": "Combined quantitative behavior data and user interviews to diagnose content discovery gaps; recommended improvements using RICE prioritization to reduce early drop-off",
+    "link": ""
+  },
+  {
+    "name": "AI Feature Adoption & Funnel Analysis",
+    "desc": "Diagnosed adoption barriers across AI feature journey; identified critical drop-off points; 2 of 3 recommendations accepted into product roadmap",
+    "link": ""
+  },
+  {
+    "name": "Expense Policy Feature – Segmentation",
+    "desc": "Engineered feature tables from transactional data; segmentation and correlation analysis informed feature rollout prioritization",
+    "link": ""
+  },
+  {
+    "name": "SmartBuy – AI Marketplace (in progress)",
+    "desc": "Building buyer-centric and seller-centric marketplace with AI purchase recommendations and guided listing/pricing guidance. ADD DETAILS — not yet on prior resumes.",
+    "link": ""
+  },
+  {
+    "name": "Job Application Agent (personal project)",
+    "desc": "Personal agent for tailored resumes, cover letters, application tracking, and LinkedIn-assisted workflows",
+    "link": ""
+  }
+]

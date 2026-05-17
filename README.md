@@ -1,16 +1,69 @@
-🚀 Akshay Career Conversation AI — README
+---
+title: Akshay Career Conversation AI
+emoji: 💼
+colorFrom: blue
+colorTo: indigo
+sdk: gradio
+sdk_version: "4.44.0"
+app_file: app.py
+pinned: false
+---
 
-This project is a personal career conversation assistant powered by OpenAI.
-It acts as a smart, interactive version of me (Akshay) — capable of answering questions about my background, experience, projects, and interests.
+# Akshay Career Conversation AI
 
-The assistant uses:
+Personal career conversation assistant powered by OpenAI. It answers questions about my background, experience, projects, and interests using resume, LinkedIn export, summary, and project data in `me/`.
 
-OpenAI GPT models
+**Stack:** Python, Gradio, OpenAI (`gpt-4o-mini`), optional Pushover notifications.
 
-Pushover notifications (to alert me about leads or unanswered questions)
+## Run locally
 
-Custom personal context from my resume, LinkedIn PDF, summaries, and project links
+```bash
+cd workspace/career-conversation-app
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env   # add OPENAI_API_KEY
+./run.sh
+```
 
-A Gradio UI hosted locally or on Hugging Face Spaces
+Gradio opens on a free port (or set `PORT=7860` in `.env`).
 
-This project helps me present my professional profile in an interactive, conversational way.
+## Environment variables
+
+| Variable | Required | Purpose |
+|----------|----------|---------|
+| `OPENAI_API_KEY` | Yes | OpenAI API access |
+| `PUSHOVER_TOKEN`, `PUSHOVER_USER` | No | Alerts for leads and urgent unknown questions |
+| `PORT` | No | Gradio port (default: random free port) |
+| `DEBUG` | No | Set to `1` for verbose message logging |
+
+## `me/` folder
+
+Populate on a fresh clone (not all files are in git):
+
+| File | Purpose |
+|------|---------|
+| `resume.pdf` | Resume text for context |
+| `linkedin.pdf` | LinkedIn export |
+| `summary.txt` | Short professional summary |
+| `projects.json` | Project list (`name`, `desc`, `link`) |
+| `avatar.jpg` | Header avatar |
+
+Sync from job-agent (optional):
+
+```bash
+python scripts/sync_context_from_job_agent.py
+```
+
+## Deploy (Hugging Face Spaces)
+
+1. Create a Gradio Space and connect this repo (or upload files).
+2. Set Space secrets: `OPENAI_API_KEY`, optional Pushover vars.
+3. Ensure `me/` assets are present on the Space (upload or sync script).
+
+## Tools
+
+- `record_user_details` — records visitor email (Pushover alert)
+- `record_unknown_question` — logs questions outside available context
+
+Unknown questions are appended to `unknown_questions.log` (gitignored).

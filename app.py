@@ -14,6 +14,16 @@ from datetime import datetime
 
 load_dotenv(override=True)
 
+DEBUG = os.getenv("DEBUG", "").strip().lower() in ("1", "true", "yes")
+
+def _require_openai_key():
+    key = os.getenv("OPENAI_API_KEY", "").strip()
+    if not key:
+        raise SystemExit(
+            "OPENAI_API_KEY is not set. Copy .env.example to .env and add your key."
+        )
+    return key
+
 # ---------- Pushover ----------
 def push(text):
     token = os.getenv("PUSHOVER_TOKEN")
@@ -193,11 +203,12 @@ def _to_openai_messages(system_prompt, history, user_message):
             print(f"Index {idx}: {repr_bad}", flush=True)
         print("=== End invalid entries ===", flush=True)
 
-    print("=== DEBUG: sanitized messages to be sent to OpenAI ===", flush=True)
-    for i, m in enumerate(sanitized):
-        preview = m["content"][:140].replace("\n", " ")
-        print(f"{i}: role={m['role']} content_preview={preview!r}", flush=True)
-    print("=== END DEBUG ===", flush=True)
+    if DEBUG:
+        print("=== DEBUG: sanitized messages to be sent to OpenAI ===", flush=True)
+        for i, m in enumerate(sanitized):
+            preview = m["content"][:140].replace("\n", " ")
+            print(f"{i}: role={m['role']} content_preview={preview!r}", flush=True)
+        print("=== END DEBUG ===", flush=True)
 
     return sanitized
 
@@ -237,7 +248,7 @@ def find_project_by_query(projects, query):
 # ---------- Agent (Akshay) ----------
 class Me:
     def __init__(self):
-        self.openai = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        self.openai = OpenAI(api_key=_require_openai_key())
         self.name = "Akshay"
         self.linkedin = ""
         self.resume_text = ""
@@ -503,9 +514,7 @@ def respond_and_append(user_message, chat_history):
     return "", history_as_dicts
 
 # ---------- UI layout ----------
-FALLBACK1 = "/mnt/data/Screenshot 2025-11-23 at 2.06.05 PM.png"
-FALLBACK2 = "/mnt/data/Screenshot 2025-11-23 at 1.56.34 PM.png"
-avatar_path = "me/avatar.jpg" if os.path.exists("me/avatar.jpg") else (FALLBACK1 if os.path.exists(FALLBACK1) else (FALLBACK2 if os.path.exists(FALLBACK2) else None))
+avatar_path = "me/avatar.jpg" if os.path.exists("me/avatar.jpg") else None
 
 css = """
 /* header layout */
@@ -554,6 +563,7 @@ css = """
 """
 
 if __name__ == "__main__":
+    _require_openai_key()
     me = Me()
 
     with gr.Blocks(title=f"{me.name} — Career Assistant") as demo:
