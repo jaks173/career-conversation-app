@@ -4,7 +4,7 @@ emoji: 💼
 colorFrom: blue
 colorTo: indigo
 sdk: gradio
-sdk_version: "4.44.0"
+sdk_version: "4.36.1"
 app_file: app.py
 pinned: false
 ---
@@ -60,9 +60,13 @@ python scripts/sync_context_from_job_agent.py
 
 ## Deploy (Hugging Face Spaces)
 
-1. Create a Gradio Space and connect this repo (or upload files).
-2. Set Space secrets: `OPENAI_API_KEY`, optional Pushover vars.
-3. Ensure `me/` assets are present on the Space (upload or sync script).
+Space: https://huggingface.co/spaces/jakshay/career-chat
+
+1. Connect this repo to the Space (or push to `main`).
+2. **Required secret:** Settings → Repository secrets → `OPENAI_API_KEY` = your OpenAI key.
+3. `sdk_version` in this README must match `gradio==4.36.1` in `requirements.txt` (do not use 4.44).
+4. After pushing fixes, use **Factory reboot** on the Space if the UI still shows Error.
+5. Optional secrets: `PUSHOVER_TOKEN`, `PUSHOVER_USER`.
 
 ## Tools
 

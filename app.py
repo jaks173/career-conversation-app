@@ -531,11 +531,19 @@ def _history_to_dict_list(hist):
         out.append({"role": "assistant", "content": normalize_assistant_reply(a)})
     return out
 
+_agent = None
+
+def get_agent():
+    global _agent
+    if _agent is None:
+        _agent = Me()
+    return _agent
+
 def respond_and_append(user_message, chat_history):
     if chat_history is None:
         chat_history = []
     history_as_dicts = _history_to_dict_list(chat_history)
-    raw_reply = me.chat(user_message, history_as_dicts)
+    raw_reply = get_agent().chat(user_message, history_as_dicts)
     reply_text = normalize_assistant_reply(raw_reply)
     chat_history = list(chat_history or [])
     chat_history.append((str(user_message), reply_text))
@@ -590,30 +598,39 @@ css = """
 .gradio-container { background: transparent !important; }
 """
 
+IS_HF_SPACE = bool(os.getenv("SPACE_ID"))
+
+# HF Spaces expects `demo` at module scope (not only inside __main__)
+_require_openai_key()
+_agent = Me()
+
+with gr.Blocks(title="Akshay — Career Assistant", css=css) as demo:
+    with gr.Row(elem_classes="header-row", variant="default"):
+        with gr.Column(scale=1, min_width=120):
+            if avatar_path:
+                gr.Image(value=avatar_path, elem_classes="avatar-circle", show_label=False)
+            else:
+                gr.Markdown("![avatar placeholder](https://via.placeholder.com/72)")
+        with gr.Column(scale=4):
+            gr.Markdown("### Hello — I am Akshay", elem_classes="header-text")
+            gr.Markdown(
+                "This is my avatar. You can ask any questions about my career, projects, skills, or interests.",
+                elem_classes="header-sub",
+            )
+
+    gr.Markdown("---")
+    chatbot = gr.Chatbot(value=[], height=420)
+    txt = gr.Textbox(placeholder="Ask a question about Akshay...", show_label=False, lines=2)
+    send_btn = gr.Button("Send")
+    txt.submit(respond_and_append, [txt, chatbot], [txt, chatbot])
+    send_btn.click(respond_and_append, [txt, chatbot], [txt, chatbot])
+    gr.Markdown("---\n*I may ask for your email to follow up. Your email will be used only to notify Akshay.*")
+
 if __name__ == "__main__":
-    _require_openai_key()
-    me = Me()
-
-    with gr.Blocks(title=f"{me.name} — Career Assistant", css=css) as demo:
-        with gr.Row(elem_classes="header-row", variant="default"):
-            with gr.Column(scale=1, min_width=120):
-                if avatar_path:
-                    gr.Image(value=avatar_path, elem_classes="avatar-circle", show_label=False)
-                else:
-                    gr.Markdown("![avatar placeholder](https://via.placeholder.com/72)")
-            with gr.Column(scale=4):
-                gr.Markdown(f"### Hello — I am {me.name}", elem_classes="header-text")
-                gr.Markdown("This is my avatar. You can ask any questions about my career, projects, skills, or interests.", elem_classes="header-sub")
-
-        gr.Markdown("---")
-        chatbot = gr.Chatbot(value=[], elem_id="chatbot")
-        txt = gr.Textbox(placeholder="Ask a question about Akshay...", show_label=False)
-        send_btn = gr.Button("Send")
-        txt.submit(respond_and_append, [txt, chatbot], [txt, chatbot])
-        send_btn.click(respond_and_append, [txt, chatbot], [txt, chatbot])
-        gr.Markdown("---\n*I may ask for your email to follow up. Your email will be used only to notify Akshay.*")
-
-    port_env = int(os.getenv("PORT", "0") or "0")
-    port = port_env if port_env != 0 else find_free_port()
-    print(f"Launching on port {port} ...", flush=True)
-    demo.launch(server_name="127.0.0.1", server_port=port)
+    if IS_HF_SPACE:
+        demo.queue().launch()
+    else:
+        port_env = int(os.getenv("PORT", "0") or "0")
+        port = port_env if port_env != 0 else find_free_port()
+        print(f"Launching on port {port} ...", flush=True)
+        demo.launch(server_name="127.0.0.1", server_port=port)
