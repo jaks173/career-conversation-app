@@ -45,13 +45,16 @@ Populate on a fresh clone (not all files are in git):
 |------|---------|
 | `resume.pdf` | Resume text for context |
 | `linkedin.pdf` | LinkedIn export |
-| `summary.txt` | Short professional summary |
+| `summary.txt` | Short professional summary (from `resume_master.yaml`) |
+| `knowledge_base.md` | Up-to-date facts from job-agent `data/knowledge_base.md` |
+| `experience.txt` | Experience highlights from `resume_master.yaml` |
 | `projects.json` | Project list (`name`, `desc`, `link`) |
 | `avatar.jpg` | Header avatar |
 
-Sync from job-agent (optional):
+**Keep context fresh** (run after updating job-agent):
 
 ```bash
+source .venv/bin/activate
 python scripts/sync_context_from_job_agent.py
 ```
 

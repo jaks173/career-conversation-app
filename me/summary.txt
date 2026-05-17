@@ -1,3 +1,6 @@
+Name: Akshay Jagtap
+Location: Bengaluru, India
+
 Data and AI analyst with 4+ years at Armorblox and Cisco. Experienced in Databricks—writing complex
 SQL, building automated data pipelines and curated datasets, and orchestrating analytics and
 evaluation workflows with GitHub Actions. Expert in product and growth analytics using Tableau and
@@ -23,3 +26,12 @@ own AI Canvas analytics (customer/user deep dives, pass/fail quality) and Databr
 - {'Deep Agents evals': '10 SKUs, 9h→~1.8h (5x concurrency), GitHub Actions branch triggers'}
 - AI Canvas product analytics for leadership and product teams
 - {'Databricks expert work': 'custom tables, MVs, regional data compliance, PII masking'}
+
+KEY SKILLS:
+  Languages Programming: Python, SQL
+  Libraries Frameworks: pandas, NumPy, PySpark, scikit-learn, LangChain, LangGraph
+  Bi And Viz: Tableau, Excel, Power BI, Amplitude, Looker
+  Data Platforms: Databricks, Snowflake, BigQuery, AWS (S3, Athena, SageMaker), dbt, MLflow, Delta Lake, Freeplay
+  Genai Llm: LLM Evaluation Pipelines, Custom LLM Scorers (doc/RAG, slot-filling, multi-turn), LLM-as-a-Judge Evaluation, Evaluation Metrics Design, Deep Agents SDK, Prompt Engineering, RAG / Document-Grounded QA Evals, OpenAI API, Anthropic Claude API, Model Context Protocol (MCP), Agentic AI Workflows
+  Analytics: Product Analytics, A/B Testing, Funnel and Cohort Analysis, Root Cause Analysis, KPI Definition, Experiment Design, Data Quality Monitoring
+  Tools Other: Git, GitOps / GitHub Actions, Webex (automated notifications), Gradio, Cursor

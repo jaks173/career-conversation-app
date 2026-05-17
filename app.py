@@ -265,6 +265,8 @@ class Me:
         self.resume_text = ""
         self.projects = []
         self.summary = ""
+        self.knowledge_base = ""
+        self.experience = ""
 
         # load files if present
         try:
@@ -289,6 +291,16 @@ class Me:
         except Exception:
             self.summary = ""
         try:
+            with open("me/knowledge_base.md", "r", encoding="utf-8") as f:
+                self.knowledge_base = f.read()
+        except Exception:
+            self.knowledge_base = ""
+        try:
+            with open("me/experience.txt", "r", encoding="utf-8") as f:
+                self.experience = f.read()
+        except Exception:
+            self.experience = ""
+        try:
             projects_raw = open("me/projects.json", "r", encoding="utf-8").read()
             self.projects = json.loads(projects_raw)
         except Exception:
@@ -296,6 +308,13 @@ class Me:
 
         # system prompt: explicit avatar instruction
         context_parts = []
+        if self.knowledge_base:
+            context_parts.append(
+                "KNOWLEDGE BASE (most up to date — prefer this over older PDF text):\n"
+                + self.knowledge_base
+            )
+        if self.experience:
+            context_parts.append("EXPERIENCE:\n" + self.experience)
         if self.summary:
             context_parts.append("SUMMARY:\n" + self.summary)
         if self.linkedin:
@@ -310,13 +329,14 @@ class Me:
             context_parts.append("PROJECTS:\n" + projects_preview)
 
         context = "\n\n".join(context_parts)
-        if len(context) > 10000:
-            context = context[:10000] + "\n\n[[TRUNCATED]]"
+        if len(context) > 16000:
+            context = context[:16000] + "\n\n[[TRUNCATED]]"
 
         # Explicit avatar instruction as requested
         self.system_prompt_text = (
             f"You are Akshay's avatar assistant. Answer as the avatar in first-person on behalf of Akshay. "
-            "Use only the provided resources (LinkedIn export, resume text, summary, and projects.json) to answer questions about Akshay's career, projects, skills and experience. "
+            "Use only the provided resources (knowledge base, experience summary, LinkedIn export, resume text, summary, and projects.json). "
+            "Prefer KNOWLEDGE BASE and EXPERIENCE over older PDF content when they conflict. "
             "For any question you cannot answer from these resources, do NOT guess — call the record_unknown_question tool (or say you don't know and offer to collect an email). "
             "\n\nCONTEXT:\n" + context
         )

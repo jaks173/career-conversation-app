@@ -1,0 +1,8 @@
+EXPERIENCE (from resume_master.yaml):
+
+- Data Analyst (AI Team) @ Cisco (Aug 2023 - Present)
+    • tableau_product_analytics: Usage, engagement, and quality dashboards for AI Software Platforms across Cisco products; feeds ML failure tracking and product roadmap
+    • ai_canvas: New product — customer activity, response quality, pass/fail, customer and user deep dives for product and leadership
+    • llm_ops_evaluations: Databricks eval platform, custom scorers, intent classification, Deep Agents SDK evals, GitOps, automated reporting
+    • databricks_platform: Pipelines, materialized views, multi-region consolidation, PII masking, compliance
+- Data Analyst @ Armorblox (Jan 2022 - July 2023)
